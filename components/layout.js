@@ -1,6 +1,7 @@
 import Navbar from "./navbar";
 import LoginForm from "./login";
 import SignupForm from "./signup";
+import Test from "./test";
 
 export default ({ children, getPath, firebase }) => (
   <div>
@@ -10,6 +11,7 @@ export default ({ children, getPath, firebase }) => (
 
     <SignupForm firebase={firebase} />
     <LoginForm firebase={firebase} />
+    <Test />
     {children}
     <footer></footer>
   </div>
