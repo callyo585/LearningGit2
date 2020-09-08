@@ -19,18 +19,21 @@ export default class Login extends React.Component {
       illness: "",
       password: "",
       confirmPass: "",
-      error: ""
+      error: "",
+      test: "",
     };
   }
 
   async componentDidMount() {
-    const response = await fetch("https://restcountries.eu/rest/v2/all?fields=name;alpha3Code;");
+    const response = await fetch(
+      "https://restcountries.eu/rest/v2/all?fields=name;alpha3Code;"
+    );
     const getCountriesStatus = response.status > 200 ? response.status : false;
     const getCountries = await response.json();
 
     this.setState({
       countries: getCountries,
-      statusCountries: getCountriesStatus
+      statusCountries: getCountriesStatus,
     });
   }
 
@@ -64,7 +67,7 @@ export default class Login extends React.Component {
         break;
       case "race":
         const races = ["Chinese", "Malay", "Indian", "Others"];
-        races.map(race => {
+        races.map((race) => {
           select.push(
             <option value={race} key={race}>
               {race}
@@ -73,7 +76,7 @@ export default class Login extends React.Component {
         });
     }
 
-    const options = select.map(option => {
+    const options = select.map((option) => {
       return option;
     });
 
@@ -89,7 +92,7 @@ export default class Login extends React.Component {
     return true;
   }
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
 
     const { firebase } = this.props;
@@ -105,20 +108,14 @@ export default class Login extends React.Component {
       weight: userData.weight,
       illness: userData.illness,
       password: userData.password,
-      confirmPass: userData.confirmPass
+      confirmPass: userData.confirmPass,
     };
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(signUp.email, signUp.password)
-      .then(
-        firebase
-          .firestore()
-          .collection("users")
-          .doc()
-          .set(signUp)
-      )
-      .catch(function(error) {
+      .then(firebase.firestore().collection("users").doc().set(signUp))
+      .catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -127,9 +124,9 @@ export default class Login extends React.Component {
       });
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -143,7 +140,11 @@ export default class Login extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <header className="modal-card-head">
               <p className="modal-card-title">Register</p>
-              <button className="delete" aria-label="close" onClick={this.closeSignup}></button>
+              <button
+                className="delete"
+                aria-label="close"
+                onClick={this.closeSignup}
+              ></button>
             </header>
             <section className="modal-card-body">
               <div className="columns is-mobile">
@@ -151,7 +152,13 @@ export default class Login extends React.Component {
                   Username<span className="red">*</span> :
                 </div>
                 <div className="column">
-                  <input className="input is-info" type="text" placeholder="e.g. example" name="username" onChange={this.handleChange}></input>
+                  <input
+                    className="input is-info"
+                    type="text"
+                    placeholder="e.g. example"
+                    name="username"
+                    onChange={this.handleChange}
+                  ></input>
                 </div>
               </div>
               <div className="columns is-mobile">
@@ -159,7 +166,13 @@ export default class Login extends React.Component {
                   Email<span className="red">*</span> :
                 </div>
                 <div className="column">
-                  <input className="input is-info" type="text" placeholder="e.g. example@example.com" name="email" onChange={this.handleChange}></input>
+                  <input
+                    className="input is-info"
+                    type="text"
+                    placeholder="e.g. example@example.com"
+                    name="email"
+                    onChange={this.handleChange}
+                  ></input>
                 </div>
               </div>
               <div className="columns is-mobile">
@@ -184,11 +197,21 @@ export default class Login extends React.Component {
                 <div className="column">
                   <div className="control">
                     <label className="radio">
-                      <input type="radio" name="gender" value="M" onChange={this.handleChange} />
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="M"
+                        onChange={this.handleChange}
+                      />
                       Male
                     </label>
                     <label className="radio">
-                      <input type="radio" name="gender" value="F" onChange={this.handleChange} />
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="F"
+                        onChange={this.handleChange}
+                      />
                       Female
                     </label>
                   </div>
@@ -229,19 +252,37 @@ export default class Login extends React.Component {
                   Height<span className="red">*</span> :
                 </div>
                 <div className="column is-one-fourth">
-                  <input className="input is-info" type="number" placeholder="in cm(e.g. 160.1)" name="height" onChange={this.handleChange}></input>
+                  <input
+                    className="input is-info"
+                    type="number"
+                    placeholder="in cm(e.g. 160.1)"
+                    name="height"
+                    onChange={this.handleChange}
+                  ></input>
                 </div>
                 <div className="column is-one-fifth">
                   Weight<span className="red">*</span> :
                 </div>
                 <div className="column is-one-fourth">
-                  <input className="input is-info" type="number" placeholder="in kg(e.g. 80.6)" name="weight" onChange={this.handleChange}></input>
+                  <input
+                    className="input is-info"
+                    type="number"
+                    placeholder="in kg(e.g. 80.6)"
+                    name="weight"
+                    onChange={this.handleChange}
+                  ></input>
                 </div>
               </div>
               <div className="columns is-mobile">
                 <div className="column is-one-fifth">Illness:</div>
                 <div className="column">
-                  <input className="input is-info" type="text" placeholder="Physical and Mental(if any) e.g. Diabetes" name="illness" onChange={this.handleChange}></input>
+                  <input
+                    className="input is-info"
+                    type="text"
+                    placeholder="Physical and Mental(if any) e.g. Diabetes"
+                    name="illness"
+                    onChange={this.handleChange}
+                  ></input>
                 </div>
               </div>
               <div className="columns is-mobile">
@@ -249,7 +290,13 @@ export default class Login extends React.Component {
                   Password<span className="red">*</span> :
                 </div>
                 <div className="column">
-                  <input className="input is-info" type="password" placeholder="password" name="password" onChange={this.handleChange}></input>
+                  <input
+                    className="input is-info"
+                    type="password"
+                    placeholder="password"
+                    name="password"
+                    onChange={this.handleChange}
+                  ></input>
                 </div>
               </div>
               <div className="columns is-mobile">
@@ -257,11 +304,20 @@ export default class Login extends React.Component {
                   Confirm Password<span className="red">*</span> :
                 </div>
                 <div className="column">
-                  <input className="input is-info" type="password" placeholder="confirm password" name="confirmPass" onChange={this.handleChange}></input>
+                  <input
+                    className="input is-info"
+                    type="password"
+                    placeholder="confirm password"
+                    name="confirmPass"
+                    onChange={this.handleChange}
+                  ></input>
                 </div>
               </div>
               <div className="columns is-mobile">
-                <div className="column">By signing up, you agree to allow your personal information be collected for depression data analysis.</div>
+                <div className="column">
+                  By signing up, you agree to allow your personal information be
+                  collected for depression data analysis.
+                </div>
               </div>
             </section>
             <footer className="modal-card-foot">
